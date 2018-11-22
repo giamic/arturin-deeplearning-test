@@ -22,7 +22,7 @@ Prédire les labels de  `Test` (en respectant le format utilisé dans `Learn`)
 
 - Qualité / clarté du code produit
 - Simplicité de la solution
-- L'utilisation d'un modèle deep learning est un plus
+- Utilisation du deep learning
 
 Ce qui va être évalué : intelligence de la démarche et compétences en développement
 
