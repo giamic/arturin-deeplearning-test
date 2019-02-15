@@ -4,8 +4,8 @@ import pickle
 import tensorflow as tf
 
 import models
-from config import N_WORDS, TRAIN_FOLDER, VALIDATION_FOLDER, MODEL_FOLDER
-from data_generator import LogisticDataGenerator
+from config import TRAIN_FOLDER, VALIDATION_FOLDER, MODEL_FOLDER
+from data_generator import LSTMDataGenerator
 
 # tf.enable_eager_execution()
 os.makedirs(MODEL_FOLDER, exist_ok=True)
@@ -24,10 +24,10 @@ with open(os.path.join(VALIDATION_FOLDER, 'labels.pkl'), 'rb') as f:
     labels_vld = pickle.load(f)
 
 # convert the input data to one-hot encoded
-training_generator = LogisticDataGenerator(seq_trn, labels_trn, BATCH_SIZE)
-validation_generator = LogisticDataGenerator(seq_vld, labels_vld, BATCH_SIZE)
+training_generator = LSTMDataGenerator(seq_trn, labels_trn, BATCH_SIZE)
+validation_generator = LSTMDataGenerator(seq_vld, labels_vld, BATCH_SIZE)
 
-model = models.logistic(N_WORDS)
+model = models.lstm()
 
 callbacks = [
     tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, mode='min', baseline=None),
@@ -41,15 +41,15 @@ model.compile(
     metrics=['accuracy']
 )
 
+model.summary()
+
 # Train model on dataset
 model.fit_generator(
     generator=training_generator,
     validation_data=validation_generator,
     epochs=N_EPOCHS,
     callbacks=callbacks,
-    class_weight={0: 1, 1: 2}  # Mitterand is less common than Chirac, so give it a larger weight
+    class_weight={0: 1, 1: 3}  # Mitterand is less common than Chirac, so give it a larger weight
 )
 
-model.summary()
-
-model.save(os.path.join(MODEL_FOLDER, 'model_logistic.h5'))
+model.save(os.path.join(MODEL_FOLDER, 'model_lstm.h5'))

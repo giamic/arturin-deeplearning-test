@@ -15,3 +15,4 @@ with open(DICTIONARY_PATH, 'rb') as f:
     DICTIONARY = pickle.load(f)
 
 N_WORDS = len(DICTIONARY)
+MAX_LENGTH = 437
