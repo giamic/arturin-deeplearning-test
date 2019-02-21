@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from config import N_WORDS, MAX_LENGTH
+from config import N_WORDS, TIMESTEPS
 
 
 class LogisticDataGenerator(tf.keras.utils.Sequence):
@@ -78,7 +78,7 @@ class LSTMDataGenerator(tf.keras.utils.Sequence):
 
         # Generate data
         seqs = [self.sequences[k] for k in indexes]
-        timesteps = MAX_LENGTH
+        timesteps = TIMESTEPS
         X = np.zeros((self.batch_size, timesteps))
         for i in range(len(seqs)):
             for pos, word in enumerate(seqs[i]):

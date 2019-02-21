@@ -27,7 +27,8 @@ with open(os.path.join(VALIDATION_FOLDER, 'labels.pkl'), 'rb') as f:
 training_generator = LSTMDataGenerator(seq_trn, labels_trn, BATCH_SIZE)
 validation_generator = LSTMDataGenerator(seq_vld, labels_vld, BATCH_SIZE)
 
-model = models.lstm()
+model = models.attention()
+# model = models.lstm()
 
 callbacks = [
     tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, mode='min', baseline=None),
@@ -52,4 +53,5 @@ model.fit_generator(
     class_weight={0: 1, 1: 3}  # Mitterand is less common than Chirac, so give it a larger weight
 )
 
-model.save(os.path.join(MODEL_FOLDER, 'model_lstm.h5'))
+model.save(os.path.join(MODEL_FOLDER, 'model_attention.h5'))
+# model.save(os.path.join(MODEL_FOLDER, 'model_lstm.h5'))
